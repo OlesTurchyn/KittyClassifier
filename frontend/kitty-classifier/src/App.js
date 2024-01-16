@@ -60,7 +60,7 @@ function App() {
         <div className="page-links">
         <a href="#about">About</a>
         <a>{' '}</a>
-        <a href="#code">Code</a>
+        <a href="https://github.com/OlesTurchyn/KittyClassifier" target="_blank">Code</a>
       </div>
 
       <p className="app-description">Discover your cat's breed using a convolutional neural network</p>
