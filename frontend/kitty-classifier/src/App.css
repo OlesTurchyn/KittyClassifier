@@ -1,0 +1,180 @@
+body, h1, p, form, label, input, button, img {
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  margin: 20px;
+}
+
+.app-container {
+  text-align: center;
+  background-color: #fff;
+  border-radius: 8px;
+  padding: 40px;
+  /* box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); */
+  width: 90%;
+  height: 80%;
+}
+
+.app-title {
+  font-size: 3em;
+  margin-bottom: 10px;
+  color: #333;
+}
+
+.app-description {
+  color: #666;
+  margin-bottom: 20px;
+  padding:15px;
+}
+
+.center-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 20px;
+}
+
+form {
+  margin-bottom: 20px;
+}
+
+label {
+  display: block;
+  margin-bottom: 8px;
+  font-size: 1.2em;
+  color: #333;
+}
+
+input {
+  width: 90%;
+  padding: 10px;
+  font-size: 1em;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  margin-bottom: 10px;
+}
+
+button {
+  padding: 10px 20px;
+  font-size: 1em;
+  background-color: #000000;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  margin: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button:hover{
+  padding: 10px 20px;
+  font-size: 1em;
+  background-color: #ffffff;
+  color: #000000;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+
+}
+
+.select{
+  padding: 10px 20px;
+  font-size: 0.6em;
+  background-color: #323232e5;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  margin: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.select:hover{
+  padding: 10px 20px;
+  font-size: 0.6em;
+  background-color: #36363698;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  margin: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button[type="submit"] {
+  padding: 12px 24px;
+  font-size: 1.2em;
+  background-color: #4caf50; /* Green color */
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+button[type="submit"]:hover {
+  background-color: #45a049; /* Darker green on hover */
+  transform: scale(1.05); /* Slightly scale up on hover */
+}
+
+.image-preview {
+  margin-top: 20px;
+}
+
+.image-preview img {
+  max-width: 100%;
+  border-radius: 4px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Mobile responsiveness */
+@media only screen and (max-width: 600px) {
+  .app-container {
+    width: 90%;
+    padding: 15px;
+  }
+}
+
+.center-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border: 2px dashed #ddd; /* Add a dashed border to indicate drop area */
+  padding: 20px;
+  transition: border 0.3s ease; /* Add transition for a smoother effect */
+}
+
+.center-content.drag-over {
+  border-color: #007bff; /* Change border color when dragging over */
+}
+
+.page-links {
+  display: flex;
+  justify-content: center; /* Center the links horizontally */
+}
+
+.page-links a {
+  text-decoration: none;
+  color: #007bff; /* Nice blue color */
+  padding: 8px 16px; /* Add padding */
+  font-size: 1em;
+  margin: -12px; /* Adjusted margin to reduce space between links */
+  transition: color 0.3s ease, text-decoration 0.3s ease, padding 0.3s ease;
+}
+
+.page-links a:hover {
+  color: #004080; /* Darker blue color on hover */
+  text-decoration: underline; /* Underline on hover */
+  padding: 8px 20px; /* Adjusted padding on hover */
+}
+
