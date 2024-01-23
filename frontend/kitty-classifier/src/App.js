@@ -113,12 +113,14 @@ function App() {
 
         {/* Two side-by-side links */}
         <div className="page-links">
-        <a href="#about">About</a>
+        <a href="https://olesturchyn.github.io/AboutKittyClassifier/" target="_blank">About</a>
         <a>{' '}</a>
         <a href="https://github.com/OlesTurchyn/KittyClassifier" target="_blank">Code</a>
       </div>
+      <br></br>
 
-      <p className="app-description">Discover your cat's breed using a convolutional neural network</p>
+      <label>Discover your cat's breed using a convolutional neural network</label>
+      
 
       <div
         className={`center-content ${isDragging ? 'drag-over' : ''}`}
@@ -130,8 +132,8 @@ function App() {
 
         <form onSubmit={handleSubmit}>
           <div>
-            <label>
-              Drag and Drop or Select an Image:
+            <label className='select-description'>
+              Drag and drop or select an image of your kitty:
               <input
                 type="file"
                 accept="image/*"

@@ -150,6 +150,10 @@ button[type="close"]:hover {
   gap: 10px;
 }
 
+.select-description{
+  font-size:1em;
+}
+
 
 .image-preview {
   margin-top: 20px;
