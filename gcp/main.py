@@ -1,14 +1,18 @@
+from flask import Flask, request, jsonify
+from flask_cors import CORS
 from google.cloud import storage
 import tensorflow as tf
 from PIL import Image
 import numpy as np
+import json
+import functions_framework
+
+app = Flask(__name__)
+cors_config = json.load(open("cors-file.json"))
+cors_patterns = {cfg["origin"][0]: {"origins": cfg["origin"], "methods": cfg["method"]} for cfg in cors_config}
+CORS(app, resources=cors_patterns)
 
 model = None
-interpreter = None
-input_index = None
-output_index = None
-
-
 BUCKET_NAME = "turchyn-tf-models"
 class_names = [
     "Abyssinian",
@@ -33,7 +37,6 @@ class_names = [
     "Turkish Angora"
 ]
 
-
 def download_blob(bucket_name, source_blob_name, destination_file_name):
     """Downloads a blob from the bucket."""
     storage_client = storage.Client()
@@ -44,6 +47,7 @@ def download_blob(bucket_name, source_blob_name, destination_file_name):
 
     print(f"Blob {source_blob_name} downloaded to {destination_file_name}.")
 
+@app.route('/predict', methods=['POST', 'OPTIONS'])
 def predict(request):
     global model
     if model is None:
@@ -57,17 +61,16 @@ def predict(request):
     image = request.files["file"]
 
     image = np.array(
-        Image.open(image).convert("RGB").resize((256, 256)) # image resizing
+        Image.open(image).convert("RGB").resize((256, 256))  # image resizing
     )
 
     image = image.astype('uint8')
-
-    image = image/255 # normalize the image in 0 to 1 range
+    image = image / 255  # normalize the image in the 0 to 1 range
 
     img_array = tf.expand_dims(image, 0)
     predictions = model.predict(img_array)
 
-    print("Predictions:",predictions[0])
+    print("Predictions:", predictions[0])
     print("Prediction Length:", len(predictions[0]))
 
     predicted_class = class_names[np.argmax(predictions[0])]
@@ -75,6 +78,23 @@ def predict(request):
     print("Predicted Class Index: ", np.argmax(predictions[0]))
     confidence = round(100 * (np.max(predictions[0])), 2)
 
-    return {"class": predicted_class, "confidence": confidence}
- 
- 
+    response = {"class": predicted_class, "confidence": confidence}
+
+    #CORS POLICY
+    if request.method == "OPTIONS":
+        # Allows GET requests from any origin with the Content-Type
+        # header and caches preflight response for an 3600s
+        headers = {
+            "Access-Control-Allow-Origin": "http://kittyclassifier.web.app",
+            "Access-Control-Allow-Methods": "POST",
+            "Access-Control-Allow-Headers": "Content-Type",
+            "Access-Control-Max-Age": "3600",
+        }
+        return ("", 204, headers)
+    
+    headers = {"Access-Control-Allow-Origin": "*"}
+
+    return jsonify(response), 200, headers
+
+if __name__ == '__main__':
+    app.run(debug=True)

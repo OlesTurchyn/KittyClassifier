@@ -1,0 +1,8 @@
+[
+    {
+        "origin": ["http://kittyclassifier.web.app"],
+        "method": ["POST"],
+        "responseHeader": ["multipart/form-data"],
+        "maxAgeSeconds": 3600
+    }
+]

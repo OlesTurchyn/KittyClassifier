@@ -90,7 +90,7 @@ button:hover{
 .select{
   padding: 10px 20px;
   font-size: 0.6em;
-  background-color: #36363698;
+  background-color: #151515c5;
   color: #fff;
   border: none;
   border-radius: 4px;
@@ -126,6 +126,29 @@ button[type="submit"]:hover {
   background-color: #45a049; /* Darker green on hover */
   transform: scale(1.05); /* Slightly scale up on hover */
 }
+
+button[type="close"] {
+  padding: 10px 12px;
+  font-size: 0.8em;
+  background-color: #7f0000c5; 
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+button[type="close"]:hover {
+  background-color: #a9a9a9; /* Darker green on hover */
+  transform: scale(1.05); /* Slightly scale up on hover */
+}
+
+.button-container {
+  display: flex;
+  justify-content: center; /* Horizontally center the buttons */
+  gap: 10px;
+}
+
 
 .image-preview {
   margin-top: 20px;
@@ -178,3 +201,32 @@ button[type="submit"]:hover {
   padding: 8px 20px; /* Adjusted padding on hover */
 }
 
+.prediction-results {
+  background-color: #ffffff;
+  border-radius: 8px;
+  padding: 15px;
+  margin: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.result-heading {
+  color: #333;
+  font-size: 2.5em;
+  margin-bottom: 10px;
+}
+
+.result-details {
+  display: flex;
+  font-size: 1.2em;
+  flex-direction: column;
+  
+}
+
+.result-details p {
+  margin: 8px 0;
+
+}
+
+strong {
+  color: #007bff;
+}

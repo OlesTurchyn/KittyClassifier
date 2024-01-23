@@ -2,6 +2,30 @@
 
 import React, { useState, useRef } from 'react';
 import './App.css';
+import axios from "axios";
+
+// Import the functions you need from the SDKs you need
+import { initializeApp } from "firebase/app";
+import { getAnalytics } from "firebase/analytics";
+// TODO: Add SDKs for Firebase products that you want to use
+// https://firebase.google.com/docs/web/setup#available-libraries
+
+// Your web app's Firebase configuration
+// For Firebase JS SDK v7.20.0 and later, measurementId is optional
+const firebaseConfig = {
+  apiKey: "AIzaSyBniOKuyvV8Y-VSmXxqVFsxwv0FdrcmPfo",
+  authDomain: "kittyclassifier.firebaseapp.com",
+  projectId: "kittyclassifier",
+  storageBucket: "kittyclassifier.appspot.com",
+  messagingSenderId: "674854892305",
+  appId: "1:674854892305:web:13949a710ff110c3ef92b0",
+  measurementId: "G-ESEMMY7BCZ"
+};
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+const analytics = getAnalytics(app);
+
 
 function App() {
   const [imageFile, setImageFile] = useState(null);
@@ -44,12 +68,39 @@ function App() {
     setImageFile(selectedFile);
   };
 
-  const handleSubmit = (e) => {
+
+  const [predictionResponse, setPredictionResponse] = useState(null);
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    
     if (imageFile) {
-      console.log('Image submitted:', imageFile);
-      // You can use FileReader to display a preview if needed
+      const formData = new FormData();
+      formData.append('file', imageFile);
+  
+      try {
+        const response = await axios.post('https://us-central1-kittyclassifier.cloudfunctions.net/predict', formData, {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+        });
+  
+        console.log('Cloud Function response:', response.data);
+        // Handle the response here, update UI, etc.
+        const { data } = response; // Assuming the response is an object
+      setPredictionResponse({ class: data.class, confidence: data.confidence });
+
+      } catch (error) {
+        console.error('Error sending POST request:', error);
+        // Handle error, show error message, etc.
+      }
     }
+  };
+
+  const handleRemoveImage = () => {
+    setImageFile(null);
+    setPredictionResponse(null);
+
   };
 
   return (
@@ -64,10 +115,6 @@ function App() {
       </div>
 
       <p className="app-description">Discover your cat's breed using a convolutional neural network</p>
-      
-      {imageFile && (
-         <button type="submit">Submit</button>
-        )}
 
       <div
         className={`center-content ${isDragging ? 'drag-over' : ''}`}
@@ -76,6 +123,7 @@ function App() {
         onDragEnter={handleDragEnter}
         onDragLeave={handleDragLeave}
       >
+
         <form onSubmit={handleSubmit}>
           <div>
             <label>
@@ -89,15 +137,25 @@ function App() {
               />
             </label>
           </div>
+        
+        <div className='button-container'>
+          {imageFile && (
           <div>
-            <button
+            <button type="close" onClick={handleRemoveImage} className="remove-button">
+            X
+            </button>
+          </div>
+           )}
+
+          <button
               type="button"
               class="select"
               onClick={() => fileInputRef.current.click()}
             >
               Select Image
-            </button>
-          </div>
+          </button>
+        </div>
+
           {imageFile && (
           <div className="image-preview">
             <img
@@ -106,24 +164,30 @@ function App() {
             />
           </div>
 
-         
-
-          
         )}
-          
-        </form>
 
-        {/* Display the image preview if an image is selected */}
+      
+    
+        </form>
        
       </div>
 
-      
+      {imageFile && (
+         <button type="submit" onClick={handleSubmit}>Submit</button>
+        )}
+
+      {predictionResponse && (
+        <div className='prediction-results'>
+        <div className='result-details'>
+          <p><strong>Breed:</strong> {predictionResponse.class}</p>
+          <p><strong>Confidence:</strong> {predictionResponse.confidence} %</p>
+        </div>
+      </div>
+      )}
 
       
 
-      
-
-     
+    
     </div>
   );
 }
