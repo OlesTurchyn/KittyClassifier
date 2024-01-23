@@ -96,13 +96,14 @@ button:hover{
   border-radius: 4px;
   margin: 5px;
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
 .select:hover{
   padding: 10px 20px;
   font-size: 0.6em;
-  background-color: #323232e5;
+  background-color: #6c6c6ce5;
+  transform: scale(1.05);
   color: #fff;
   border: none;
   border-radius: 4px;
@@ -139,7 +140,7 @@ button[type="close"] {
 }
 
 button[type="close"]:hover {
-  background-color: #a9a9a9; /* Darker green on hover */
+  background-color: #e41717; /* Darker green on hover */
   transform: scale(1.05); /* Slightly scale up on hover */
 }
 
@@ -229,4 +230,53 @@ button[type="close"]:hover {
 
 strong {
   color: #007bff;
+}
+
+/* LOADING ICON */
+
+.loading-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 20px; /* Adjust the margin as needed */
+}
+
+/* ... existing styles ... */
+
+.loader {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-top: 4px solid #116300;
+  border-right: 4px solid transparent;
+  box-sizing: border-box;
+  animation: rotation 1s linear infinite;
+}
+
+
+
+.loader::after {
+  content: '';  
+  box-sizing: border-box;
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  border-left: 4px solid #160691;
+  border-bottom: 4px solid transparent;
+  animation: rotation 0.5s linear infinite reverse;
+}
+
+@keyframes rotation {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }

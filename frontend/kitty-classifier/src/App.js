@@ -30,6 +30,7 @@ const analytics = getAnalytics(app);
 function App() {
   const [imageFile, setImageFile] = useState(null);
   const [isDragging, setIsDragging] = useState(false);
+  const [loading, setLoading] = useState(false);
   const fileInputRef = useRef(null);
 
   const handleDrop = (e) => {
@@ -73,6 +74,7 @@ function App() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
     
     if (imageFile) {
       const formData = new FormData();
@@ -86,13 +88,15 @@ function App() {
         });
   
         console.log('Cloud Function response:', response.data);
-        // Handle the response here, update UI, etc.
-        const { data } = response; // Assuming the response is an object
-      setPredictionResponse({ class: data.class, confidence: data.confidence });
+        // Handle the response here
+        setLoading(false);
+        const { data } = response; 
+        setPredictionResponse({ class: data.class, confidence: data.confidence });
 
       } catch (error) {
+         // Handle error
         console.error('Error sending POST request:', error);
-        // Handle error, show error message, etc.
+        setLoading(false);
       }
     }
   };
@@ -173,7 +177,14 @@ function App() {
       </div>
 
       {imageFile && (
-         <button type="submit" onClick={handleSubmit}>Submit</button>
+
+        <div className="loading-container">
+        <button type="submit" onClick={handleSubmit}>
+          Submit
+        </button>
+        <br></br>
+        {loading && <span className="loader"></span>}
+        </div>
         )}
 
       {predictionResponse && (
