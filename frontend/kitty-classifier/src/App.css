@@ -1,11 +1,18 @@
-body, h1, p, form, label, input, button, img {
+body,
+h1,
+p,
+form,
+label,
+input,
+button,
+img {
   margin: 0;
   padding: 0;
   border: 0;
 }
 
 body {
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
   background-color: #ffffff;
   display: flex;
   align-items: center;
@@ -24,6 +31,20 @@ body {
   height: 80%;
 }
 
+.alert-banner {
+  background-color: #f8d7da; /* Light red background */
+  color: #721c24; /* Dark red text */
+  padding: 10px 20px;
+  border-radius: 50px; /* Makes it look like a pill */
+  text-align: center;
+  font-weight: bold;
+  font-family: Arial, sans-serif;
+  width: 100%;
+  max-width: 600px; /* Adjust to desired width */
+  margin: 0 auto; /* Center the banner */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
 .app-title {
   font-size: 3em;
   margin-bottom: 10px;
@@ -33,7 +54,7 @@ body {
 .app-description {
   color: #666;
   margin-bottom: 20px;
-  padding:15px;
+  padding: 15px;
 }
 
 .center-content {
@@ -75,7 +96,7 @@ button {
   transition: background-color 0.3s ease;
 }
 
-button:hover{
+button:hover {
   padding: 10px 20px;
   font-size: 1em;
   background-color: #ffffff;
@@ -84,10 +105,9 @@ button:hover{
   border-radius: 4px;
   cursor: pointer;
   transition: background-color 0.3s ease;
-
 }
 
-.select{
+.select {
   padding: 10px 20px;
   font-size: 0.6em;
   background-color: #36363698;
@@ -99,7 +119,7 @@ button:hover{
   transition: background-color 0.3s ease;
 }
 
-.select:hover{
+.select:hover {
   padding: 10px 20px;
   font-size: 0.6em;
   background-color: #323232e5;
@@ -177,4 +197,3 @@ button[type="submit"]:hover {
   text-decoration: underline; /* Underline on hover */
   padding: 8px 20px; /* Adjusted padding on hover */
 }
-

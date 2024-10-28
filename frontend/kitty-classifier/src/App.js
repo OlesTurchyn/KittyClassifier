@@ -1,7 +1,7 @@
 // App.js
 
-import React, { useState, useRef } from 'react';
-import './App.css';
+import React, { useState, useRef } from "react";
+import "./App.css";
 
 function App() {
   const [imageFile, setImageFile] = useState(null);
@@ -47,30 +47,40 @@ function App() {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (imageFile) {
-      console.log('Image submitted:', imageFile);
+      console.log("Image submitted:", imageFile);
       // You can use FileReader to display a preview if needed
     }
   };
 
   return (
-    <div className={`app-container ${isDragging ? 'drag-over' : ''}`}>
-      <h1 className="app-title">Kitty Classifier &#128049;</h1>
-
-        {/* Two side-by-side links */}
-        <div className="page-links">
-        <a href="#about">About</a>
-        <a>{' '}</a>
-        <a href="https://github.com/OlesTurchyn/KittyClassifier" target="_blank">Code</a>
+    <div className={`app-container ${isDragging ? "drag-over" : ""}`}>
+      <div className="alert-banner">
+        Alert: System is under maintenance due to cloud migration. My Google
+        Cloud free trial expired :(
       </div>
 
-      <p className="app-description">Discover your cat's breed using a convolutional neural network</p>
-      
-      {imageFile && (
-         <button type="submit">Submit</button>
-        )}
+      <h1 className="app-title">Kitty Classifier &#128049;</h1>
+
+      {/* Two side-by-side links */}
+      <div className="page-links">
+        <a href="#about">About</a>
+        <a> </a>
+        <a
+          href="https://github.com/OlesTurchyn/KittyClassifier"
+          target="_blank"
+        >
+          Code
+        </a>
+      </div>
+
+      <p className="app-description">
+        Discover your cat's breed using a convolutional neural network
+      </p>
+
+      {imageFile && <button type="submit">Submit</button>}
 
       <div
-        className={`center-content ${isDragging ? 'drag-over' : ''}`}
+        className={`center-content ${isDragging ? "drag-over" : ""}`}
         onDrop={handleDrop}
         onDragOver={handleDragOver}
         onDragEnter={handleDragEnter}
@@ -84,7 +94,7 @@ function App() {
                 type="file"
                 accept="image/*"
                 onChange={handleFileChange}
-                style={{ display: 'none' }}
+                style={{ display: "none" }}
                 ref={fileInputRef}
               />
             </label>
@@ -99,31 +109,14 @@ function App() {
             </button>
           </div>
           {imageFile && (
-          <div className="image-preview">
-            <img
-              src={URL.createObjectURL(imageFile)}
-              alt="User's Input"
-            />
-          </div>
-
-         
-
-          
-        )}
-          
+            <div className="image-preview">
+              <img src={URL.createObjectURL(imageFile)} alt="User's Input" />
+            </div>
+          )}
         </form>
 
         {/* Display the image preview if an image is selected */}
-       
       </div>
-
-      
-
-      
-
-      
-
-     
     </div>
   );
 }
