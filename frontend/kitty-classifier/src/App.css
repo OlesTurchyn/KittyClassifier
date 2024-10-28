@@ -110,19 +110,20 @@ button:hover {
 .select {
   padding: 10px 20px;
   font-size: 0.6em;
-  background-color: #36363698;
+  background-color: #151515c5;
   color: #fff;
   border: none;
   border-radius: 4px;
   margin: 5px;
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
 .select:hover {
   padding: 10px 20px;
   font-size: 0.6em;
-  background-color: #323232e5;
+  background-color: #6c6c6ce5;
+  transform: scale(1.05);
   color: #fff;
   border: none;
   border-radius: 4px;
@@ -145,6 +146,32 @@ button[type="submit"] {
 button[type="submit"]:hover {
   background-color: #45a049; /* Darker green on hover */
   transform: scale(1.05); /* Slightly scale up on hover */
+}
+
+button[type="close"] {
+  padding: 10px 12px;
+  font-size: 0.8em;
+  background-color: #7f0000c5;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+button[type="close"]:hover {
+  background-color: #e41717; /* Darker green on hover */
+  transform: scale(1.05); /* Slightly scale up on hover */
+}
+
+.button-container {
+  display: flex;
+  justify-content: center; /* Horizontally center the buttons */
+  gap: 10px;
+}
+
+.select-description {
+  font-size: 1em;
 }
 
 .image-preview {
@@ -196,4 +223,79 @@ button[type="submit"]:hover {
   color: #004080; /* Darker blue color on hover */
   text-decoration: underline; /* Underline on hover */
   padding: 8px 20px; /* Adjusted padding on hover */
+}
+
+.prediction-results {
+  background-color: #ffffff;
+  border-radius: 8px;
+  padding: 15px;
+  margin: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.result-heading {
+  color: #333;
+  font-size: 2.5em;
+  margin-bottom: 10px;
+}
+
+.result-details {
+  display: flex;
+  font-size: 1.2em;
+  flex-direction: column;
+}
+
+.result-details p {
+  margin: 8px 0;
+}
+
+strong {
+  color: #007bff;
+}
+
+/* LOADING ICON */
+
+.loading-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 20px; /* Adjust the margin as needed */
+}
+
+/* ... existing styles ... */
+
+.loader {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-top: 4px solid #116300;
+  border-right: 4px solid transparent;
+  box-sizing: border-box;
+  animation: rotation 1s linear infinite;
+}
+
+.loader::after {
+  content: "";
+  box-sizing: border-box;
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  border-left: 4px solid #160691;
+  border-bottom: 4px solid transparent;
+  animation: rotation 0.5s linear infinite reverse;
+}
+
+@keyframes rotation {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
