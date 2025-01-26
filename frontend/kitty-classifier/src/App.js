@@ -7,19 +7,40 @@ function App() {
   const [isDragging, setIsDragging] = useState(false);
   const [prediction, setPrediction] = useState(null);
   const [model, setModel] = useState(null);
-  const [imageTensor, setImageTensor] = useState(null); // State for storing the processed tensor
+  const [imageTensor, setImageTensor] = useState(null);
   const fileInputRef = useRef(null);
 
-  // Load the TensorFlow.js model on component mount
+  // Class names for the cat breeds
+  const classNames = [
+    "Abyssinian",
+    "American Bobtail",
+    "American Curl",
+    "American Shorthair",
+    "Bengal",
+    "Birman",
+    "Bombay",
+    "British Shorthair",
+    "Egyptian Mau",
+    "Exotic Shorthair",
+    "Maine Coon",
+    "Manx",
+    "Norwegian Forest",
+    "Persian",
+    "Ragdoll",
+    "Russian Blue",
+    "Scottish Fold",
+    "Siamese",
+    "Sphynx",
+    "Turkish Angora",
+  ];
+
   useEffect(() => {
+    // Load TensorFlow.js model
     const loadModel = async () => {
       try {
-        const loadedModel = await tf.loadLayersModel('/client-model/model.json');
+        const loadedModel = await tf.loadLayersModel("/client-model/model.json");
         console.log("Model loaded successfully!");
-
-            // Log input shape to confirm the expected input format
-    console.log("Model input shape:", loadedModel.inputs[0].shape);
-
+        console.log("Model input shape:", loadedModel.inputs[0].shape);
         setModel(loadedModel);
       } catch (error) {
         console.error("Error loading model:", error);
@@ -29,7 +50,7 @@ function App() {
     loadModel();
   }, []);
 
-  // Preprocess the image to ensure it has 4 dimensions before passing it to the model
+  // Preprocess image to create a TensorFlow.js tensor
   const preprocessImage = async (file) => {
     const img = document.createElement("img");
     img.src = URL.createObjectURL(file);
@@ -37,11 +58,11 @@ function App() {
     return new Promise((resolve) => {
       img.onload = () => {
         const tensor = tf.browser
-          .fromPixels(img, 3) // Ensuring the image is in RGB format (3 channels)
-          .resizeNearestNeighbor([224, 224]) // Resize image to model's expected size
+          .fromPixels(img, 3)
+          .resizeNearestNeighbor([256, 256])
           .toFloat()
-          .div(255.0) // Normalize pixel values
-          .expandDims(0); // Add batch dimension: [height, width, channels] -> [1, height, width, channels]
+          .div(255.0)
+          .expandDims(0);
         console.log("Preprocessed tensor shape:", tensor.shape);
         resolve(tensor);
       };
@@ -56,7 +77,7 @@ function App() {
     if (droppedFiles.length > 0) {
       const file = droppedFiles[0];
       setImageFile(file);
-      preprocessImage(file).then((tensor) => setImageTensor(tensor)); // Store tensor
+      preprocessImage(file).then((tensor) => setImageTensor(tensor));
     }
   };
 
@@ -80,10 +101,9 @@ function App() {
   };
 
   const handleFileChange = (e) => {
-    e.preventDefault();
     const selectedFile = e.target.files[0];
     setImageFile(selectedFile);
-    preprocessImage(selectedFile).then((tensor) => setImageTensor(tensor)); // Store tensor
+    preprocessImage(selectedFile).then((tensor) => setImageTensor(tensor));
   };
 
   const handlePrediction = async () => {
@@ -93,18 +113,22 @@ function App() {
     }
 
     try {
-      // Log tensor shape before prediction
-      console.log('Tensor shape before prediction:', imageTensor.shape);
+      console.log("Tensor shape before prediction:", imageTensor.shape);
 
-      const predictions = model.predict(imageTensor); // Use pre-processed tensor
+      const predictions = model.predict(imageTensor);
       const result = await predictions.array();
       console.log("Prediction result:", result);
 
-      // Find the class with the highest probability
+      // Get the predicted class and confidence
       const predictedClassIndex = result[0].indexOf(Math.max(...result[0]));
-      setPrediction(predictedClassIndex);
+      const confidence = Math.max(...result[0]) * 100;
 
-      // Dispose tensors after prediction
+      setPrediction({
+        class: classNames[predictedClassIndex],
+        confidence: confidence.toFixed(2),
+      });
+
+      // Dispose tensor after prediction
       imageTensor.dispose();
     } catch (error) {
       console.error("Error during prediction:", error);
@@ -186,10 +210,13 @@ function App() {
           )}
         </form>
 
-        {prediction !== null && (
+        {prediction && (
           <div className="prediction-result">
             <p>
-              <strong>Predicted Class:</strong> {prediction}
+              <strong>Predicted Class:</strong> {prediction.class}
+            </p>
+            <p>
+              <strong>Confidence:</strong> {prediction.confidence}%
             </p>
           </div>
         )}
